@@ -1,0 +1,19 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+  sql:
+    init:
+      mode: always
+  application:
+    name: customer-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/customer_cascade?useSSL=false&useTimezone=true&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver

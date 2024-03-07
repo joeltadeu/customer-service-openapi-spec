@@ -1,0 +1,684 @@
+{
+	"info": {
+		"_postman_id": "863ba3bf-d2b0-4990-894b-1643aa9ac34b",
+		"name": "customer-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3024621"
+	},
+	"item": [
+		{
+			"name": "customer",
+			"item": [
+				{
+					"name": "Get Customers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9081/v1/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Customer By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/{{customerId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"{{customerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"postman.setEnvironmentVariable(\"customerId\", jsonData.id);\r",
+									"postman.setEnvironmentVariable(\"firstName\", jsonData.firstName);\r",
+									"postman.setEnvironmentVariable(\"lastName\", jsonData.lastName);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"birthday\": \"1977-09-23\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9081/v1/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Customer",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Tatiana\",\r\n    \"lastName\": \"Oliveira\",\r\n    \"birthday\": \"1977-09-23\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/{{customerId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"{{customerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Customer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Joel\",\r\n    \"lastName\": \"Silva\",\r\n    \"birthday\": \"1981-01-19\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/{{customerId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"{{customerId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "address",
+			"item": [
+				{
+					"name": "Get Addresses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/{{customerId}}/addresses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"{{customerId}}",
+								"addresses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Address By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/{{customerId}}/addresses/{{addressId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"{{customerId}}",
+								"addresses",
+								"{{addressId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"postman.setEnvironmentVariable(\"addressId\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"street\": \"{{$randomStreetName}}\",\r\n    \"complement\": \"103\",\r\n    \"city\": \"{{$randomCity}}\",\r\n    \"county\": \"Roscommon\",\r\n    \"country\": \"Ireland\",\r\n    \"eircode\": \"N21RP11\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/{{customerId}}/addresses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"{{customerId}}",
+								"addresses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Address",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"street\": \"{{$randomStreetName}}\",\r\n    \"complement\": \"103\",\r\n    \"city\": \"{{$randomCity}}\",\r\n    \"county\": \"Roscommon\",\r\n    \"country\": \"Ireland\",\r\n    \"eircode\": \"N21RP11\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/{{customerId}}/addresses/{{addressId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"{{customerId}}",
+								"addresses",
+								"{{addressId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Address",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Joel\",\r\n    \"lastName\": \"Silva\",\r\n    \"birthday\": \"1981-01-19\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/{{customerId}}/addresses/{{addressId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"{{customerId}}",
+								"addresses",
+								"{{addressId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "email",
+			"item": [
+				{
+					"name": "Get Emails",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/{{customerId}}/emails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"{{customerId}}",
+								"emails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Email By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/{{customerId}}/emails/{{emailId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"{{customerId}}",
+								"emails",
+								"{{emailId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Email",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//var personalDomains = ['gmail.com','outlook.com','yahoo.com'];\r",
+									"var emailType = 'WORK' // 'WORK'\r",
+									"var personalDomains = ['vodafone.ie','guiness.ie','tesco.ie'];\r",
+									"const idx = pm.variables.replaceIn('{{$randomInt}}') % 3 + 1;\r",
+									"var domain = personalDomains[idx];\r",
+									"var email = postman.getEnvironmentVariable(\"firstName\").toLowerCase() + '.' + postman.getEnvironmentVariable(\"lastName\").toLowerCase() + '@' +  domain;\r",
+									"postman.setEnvironmentVariable(\"email\", email);\r",
+									"postman.setEnvironmentVariable(\"emailType\", emailType);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"postman.setEnvironmentVariable(\"emailId\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"{{emailType}}\",\r\n    \"email\": \"{{email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/{{customerId}}/emails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"{{customerId}}",
+								"emails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var workDomains = ['dunnesstores.com','ryanair.ie','medtronic.ie'];\r",
+									"const idx = pm.variables.replaceIn('{{$randomInt}}') % 3 + 1;\r",
+									"var domain = workDomains[idx];\r",
+									"var email = postman.getEnvironmentVariable(\"firstName\").toLowerCase() + '.' + postman.getEnvironmentVariable(\"lastName\").toLowerCase() + '@' +  domain;\r",
+									"postman.setEnvironmentVariable(\"email\", email);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"WORK\",\r\n    \"email\": \"{{email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/{{customerId}}/emails/{{emailId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"{{customerId}}",
+								"emails",
+								"{{emailId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Email",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Joel\",\r\n    \"lastName\": \"Silva\",\r\n    \"birthday\": \"1981-01-19\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/{{customerId}}/emails/{{emailId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"{{customerId}}",
+								"emails",
+								"{{emailId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "document",
+			"item": [
+				{
+					"name": "Get Documents",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/{{customerId}}/documents",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"{{customerId}}",
+								"documents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Document By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/5/documents/12",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"5",
+								"documents",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Document",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"postman.setEnvironmentVariable(\"documentId\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var documentTypes = ['DRIVER_LICENSE','PPS','PASSPORT'];\r",
+									"const idx = pm.variables.replaceIn('{{$randomInt}}') % 2 + 1;\r",
+									"var documentType = documentTypes[idx];\r",
+									"postman.setEnvironmentVariable(\"documentType\", documentType);\r",
+									"var documentNumber = (pm.variables.replaceIn('{{$randomInt}}') % 98761 + 1) + '432' + pm.variables.replaceIn('{{$randomAlphaNumeric}}').toUpperCase() + pm.variables.replaceIn('{{$randomAlphaNumeric}}').toUpperCase() + pm.variables.replaceIn('{{$randomAlphaNumeric}}').toUpperCase();\r",
+									"postman.setEnvironmentVariable(\"documentNumber\", documentNumber);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"{{documentType}}\",\r\n    \"documentNumber\": \"{{documentNumber}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/{{customerId}}/documents",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"{{customerId}}",
+								"documents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Document",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"DRIVER_LICENSE\",\r\n    \"documentNumber\": \"783676113BR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/{{customerId}}/documents/{{documentId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"{{customerId}}",
+								"documents",
+								"{{documentId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Document",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Joel\",\r\n    \"lastName\": \"Silva\",\r\n    \"birthday\": \"1981-01-19\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9081/v1/customers/{{customerId}}/documents/{{documentId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9081",
+							"path": [
+								"v1",
+								"customers",
+								"{{customerId}}",
+								"documents",
+								"{{documentId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

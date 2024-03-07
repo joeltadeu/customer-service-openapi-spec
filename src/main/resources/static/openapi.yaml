@@ -1,0 +1,1799 @@
+openapi: 3.0.1
+info:
+  title: Customer Controller
+  description: ""
+  termsOfService: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: Joel Silva
+    email: joeltadeu@gmail.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  version: 1.0.0
+servers:
+  - url: http://localhost:9081
+    description: Generated server url
+tags:
+  - name: Customer Controller
+    description: "API to manage customers and perform basic operations such as create,\
+    \ updating, list of customers and deletion"
+  - name: Address Controller
+    description: "API to manage addresses by customer and perform basic operations such\
+    \ as create, updating, list of addresses and deletion"
+  - name: Document Controller
+    description: "API to manage documents by customer and perform basic operations such\
+    \ as create, updating, list of documents and deletion"
+  - name: Email Controller
+    description: "API to manage emails by customer and perform basic operations such\
+    \ as create, updating, list of emails and deletion"
+paths:
+  /v1/customers/{id}:
+    get:
+      tags:
+        - Customer Controller
+      summary: Retrieve a customer by id
+      description: This endpoint is responsible to retrieve the customer data by id
+      operationId: findCustomerById
+      parameters:
+        - name: id
+          in: path
+          description: Id of the customer to be searched
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        "404":
+          description: Customer not found
+          content:
+            application/json:
+              examples:
+                Not found example:
+                  description: A not found response example when trying to retrieve
+                    a customer does not exist
+                  value:
+                    code: 404
+                    status: Not Found
+                    description: Customer with id 10 was not found
+                    date: 2022-10-28T21:39:54.603263862
+        "200":
+          description: Return customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        "500":
+          description: An unexpected error occurred during retrieve the customer
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to retrieve a customer
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+    put:
+      tags:
+        - Customer Controller
+      summary: Update a customer
+      description: This endpoint is responsible to update the customer data by id
+      operationId: updateCustomer
+      parameters:
+        - name: id
+          in: path
+          description: Id of the customer to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+        required: true
+      responses:
+        "400":
+          description: Customer request is invalid
+          content:
+            application/json:
+              examples:
+                Bad request example:
+                  description: A bad request response example when trying to update
+                    a customer
+                  value: |
+                    {
+                         "code": 400,
+                         "status": "Bad Request",
+                         "description": "Validation Exception",
+                         "date": "2022-11-25T20:14:04.078313400",
+                         "attributes": [
+                             {
+                                 "attribute": "firstName",
+                                 "errors": [
+                                     "First name cannot be null"
+                                 ]
+                             },
+                             {
+                                 "attribute": "lastName",
+                                 "errors": [
+                                     Last name cannot be null"
+                                 ]
+                             },
+                             {
+                                 "attribute": "birthday",
+                                 "errors": [
+                                     "Birthday cannot be null"
+                                 ]
+                             }
+                         ]
+                    }
+        "404":
+          description: Customer not found
+          content:
+            application/json:
+              examples:
+                Not found example:
+                  description: A not found response example when trying to update
+                    a customer does not exist
+                  value:
+                    code: 404
+                    status: Not Found
+                    description: Customer with id 10 was not found
+                    date: 2022-10-28T21:39:54.603263862
+        "200":
+          description: Customer updated
+          content:
+            application/json: {}
+        "500":
+          description: An unexpected error occurred during update the customer
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to update a customer
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+    delete:
+      tags:
+        - Customer Controller
+      summary: Delete the customer by id
+      description: This endpoint is responsible to delete the customer by id
+      operationId: deleteCustomer
+      parameters:
+        - name: id
+          in: path
+          description: Id of the customer to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        "404":
+          description: Customer not found
+          content:
+            application/json:
+              examples:
+                Not found example:
+                  description: A not found response example when trying to delete
+                    a customer does not exist
+                  value:
+                    code: 404
+                    status: Not Found
+                    description: Customer with id 10 was not found
+                    date: 2022-10-28T21:39:54.603263862
+        "204":
+          description: Customer deleted
+          content:
+            application/json: {}
+        "500":
+          description: An unexpected error occurred during delete the customer
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to delete a customer
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+  /v1/customers/{customerId}/emails/{id}:
+    get:
+      tags:
+        - Email Controller
+      summary: Retrieve a customer email by id
+      description: This endpoint is responsible to retrieve the customer email data
+        by id
+      operationId: findEmailById
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+        - name: id
+          in: path
+          description: Id of the email to be searched
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 15
+      responses:
+        "200":
+          description: Return email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailResponse'
+        "500":
+          description: An unexpected error occurred during retrieve the customer email
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to retrieve a customer email
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+        "404":
+          description: Email not found
+          content:
+            application/json:
+              examples:
+                Not found example:
+                  description: A not found response example when trying to retrieve
+                    a customer email does not exist
+                  value:
+                    code: 404
+                    status: Not Found
+                    description: Email with id 4 was not found
+                    date: 2022-10-28T21:39:54.603263862
+    put:
+      tags:
+        - Email Controller
+      summary: Update a customer email
+      description: This endpoint is responsible to update a customer email data by
+        id
+      operationId: updateEmail
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+        - name: id
+          in: path
+          description: Id of the email to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 15
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailRequest'
+        required: true
+      responses:
+        "200":
+          description: Email updated
+          content:
+            application/json: {}
+        "500":
+          description: An unexpected error occurred during update the customer email
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to update a customer email
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+        "404":
+          description: Email not found
+          content:
+            application/json:
+              examples:
+                Not found example:
+                  description: A not found response example when trying to update
+                    a customer email does not exist
+                  value:
+                    code: 404
+                    status: Not Found
+                    description: Email with id 4 was not found
+                    date: 2022-10-28T21:39:54.603263862
+        "400":
+          description: Email request is invalid
+          content:
+            application/json:
+              examples:
+                Bad request example:
+                  description: A bad request response example when trying to update
+                    a customer email
+                  value: |
+                    {
+                         "code": 400,
+                         "status": "Bad Request",
+                         "description": "Validation Exception",
+                         "date": "2022-11-25T20:14:04.078313400",
+                         "attributes": [
+                             {
+                                 "attribute": "type",
+                                 "errors": [
+                                     "Email Type cannot be null"
+                                 ]
+                             },
+                             {
+                                 "attribute": "email",
+                                 "errors": [
+                                     Email cannot be null"
+                                 ]
+                             }
+                         ]
+                    }
+    delete:
+      tags:
+        - Email Controller
+      summary: Delete the customer email by id
+      description: This endpoint is responsible to delete the customer email by id
+      operationId: deleteEmail
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+        - name: id
+          in: path
+          description: Id of the email to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 15
+      responses:
+        "204":
+          description: Email deleted
+          content:
+            application/json: {}
+        "500":
+          description: An unexpected error occurred during delete the customer email
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to delete customer email
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+        "404":
+          description: Email not found
+          content:
+            application/json:
+              examples:
+                Not found example:
+                  description: A not found response example when trying to delete
+                    a customer email does not exist
+                  value:
+                    code: 404
+                    status: Not Found
+                    description: Email with id 4 was not found
+                    date: 2022-10-28T21:39:54.603263862
+  /v1/customers/{customerId}/documents/{id}:
+    get:
+      tags:
+        - Document Controller
+      summary: Retrieve a customer document by id
+      description: This endpoint is responsible to retrieve the customer document
+        data by id
+      operationId: findDocumentById
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+        - name: id
+          in: path
+          description: Id of the document to be searched
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 15
+      responses:
+        "404":
+          description: Document not found
+          content:
+            application/json:
+              examples:
+                Not found example:
+                  description: A not found response example when trying to retrieve
+                    a document does not exist
+                  value:
+                    code: 404
+                    status: Not Found
+                    description: Document with id 7 was not found
+                    date: 2022-10-28T21:39:54.603263862
+        "200":
+          description: Return document
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentResponse'
+        "500":
+          description: An unexpected error occurred during retrieve the document
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to retrieve a customer document
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+    put:
+      tags:
+        - Document Controller
+      summary: Update a document
+      description: This endpoint is responsible to update a customer document data
+        by id
+      operationId: updateDocument
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+        - name: id
+          in: path
+          description: Id of the document to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 15
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentRequest'
+        required: true
+      responses:
+        "200":
+          description: Document updated
+          content:
+            application/json: {}
+        "404":
+          description: Document not found
+          content:
+            application/json:
+              examples:
+                Not found example:
+                  description: A not found response example when trying to update
+                    a document does not exist
+                  value:
+                    code: 404
+                    status: Not Found
+                    description: Document with id 7 was not found
+                    date: 2022-10-28T21:39:54.603263862
+        "500":
+          description: An unexpected error occurred during update the document
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to update a document
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+        "400":
+          description: Document request is invalid
+          content:
+            application/json:
+              examples:
+                Bad request example:
+                  description: A bad request response example when trying to update
+                    a document
+                  value: |
+                    {
+                         "code": 400,
+                         "status": "Bad Request",
+                         "description": "Validation Exception",
+                         "date": "2022-11-25T20:14:04.078313400",
+                         "attributes": [
+                             {
+                                 "attribute": "type",
+                                 "errors": [
+                                     "Document Type cannot be null"
+                                 ]
+                             },
+                             {
+                                 "attribute": "documentNumber",
+                                 "errors": [
+                                     Document number cannot be null"
+                                 ]
+                             }
+                         ]
+                    }
+    delete:
+      tags:
+        - Document Controller
+      summary: Delete the customer document by id
+      description: This endpoint is responsible to delete the customer document by
+        id
+      operationId: deleteDocument
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+        - name: id
+          in: path
+          description: Id of the document to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 15
+      responses:
+        "204":
+          description: Document deleted
+          content:
+            application/json: {}
+        "500":
+          description: An unexpected error occurred during delete the customer document
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to delete customer document
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+        "404":
+          description: Document not found
+          content:
+            application/json:
+              examples:
+                Not found example:
+                  description: A not found response example when trying to delete
+                    a customer document does not exist
+                  value:
+                    code: 404
+                    status: Not Found
+                    description: Document with id 7 was not found
+                    date: 2022-10-28T21:39:54.603263862
+  /v1/customers/{customerId}/addresses/{id}:
+    get:
+      tags:
+        - Address Controller
+      summary: Retrieve a customer address by id
+      description: This endpoint is responsible to retrieve the customer address data
+        by id
+      operationId: findAddressById
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+        - name: id
+          in: path
+          description: Id of the address to be searched
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 15
+      responses:
+        "200":
+          description: Return address
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressResponse'
+        "500":
+          description: An unexpected error occurred during retrieve the address
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to retrieve a customer address
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+        "404":
+          description: Address not found
+          content:
+            application/json:
+              examples:
+                Not found example:
+                  description: A not found response example when trying to retrieve
+                    a address does not exist
+                  value:
+                    code: 404
+                    status: Not Found
+                    description: Address with id 2 was not found
+                    date: 2022-10-28T21:39:54.603263862
+    put:
+      tags:
+        - Address Controller
+      summary: Update an address
+      description: This endpoint is responsible to update a customer's address data
+        by id
+      operationId: updateAddress
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+        - name: id
+          in: path
+          description: Id of the address to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 15
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddressRequest'
+        required: true
+      responses:
+        "400":
+          description: Address request is invalid
+          content:
+            application/json:
+              examples:
+                Bad request example:
+                  description: A bad request response example when trying to update
+                    an address
+                  value: |
+                    {
+                         "code": 400,
+                         "status": "Bad Request",
+                         "description": "Validation Exception",
+                         "date": "2022-11-25T20:14:04.078313400",
+                         "attributes": [
+                             {
+                                 "attribute": "street",
+                                 "errors": [
+                                     "Street cannot be null"
+                                 ]
+                             },
+                             {
+                                 "attribute": "eircode",
+                                 "errors": [
+                                     Eircode cannot be null"
+                                 ]
+                             },
+                             {
+                                 "attribute": "city",
+                                 "errors": [
+                                     "City cannot be null"
+                                 ]
+                             },
+                             {
+                                 "attribute": "country",
+                                 "errors": [
+                                     "Country cannot be null"
+                                 ]
+                             }
+                         ]
+                    }
+        "500":
+          description: An unexpected error occurred during update the address
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to update an address
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+        "200":
+          description: Address updated
+          content:
+            application/json: {}
+        "404":
+          description: Address not found
+          content:
+            application/json:
+              examples:
+                Not found example:
+                  description: A not found response example when trying to update
+                    an address does not exist
+                  value:
+                    code: 404
+                    status: Not Found
+                    description: Address with id 2 was not found
+                    date: 2022-10-28T21:39:54.603263862
+    delete:
+      tags:
+        - Address Controller
+      summary: Delete the customer address by id
+      description: This endpoint is responsible to delete the customer address by
+        id
+      operationId: deleteAddress
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+        - name: id
+          in: path
+          description: Id of the address to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 15
+      responses:
+        "500":
+          description: An unexpected error occurred during delete the customer address
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to delete customer address
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+        "200":
+          description: Address deleted
+          content:
+            application/json: {}
+        "404":
+          description: Address not found
+          content:
+            application/json:
+              examples:
+                Not found example:
+                  description: A not found response example when trying to delete
+                    a customer address does not exist
+                  value:
+                    code: 404
+                    status: Not Found
+                    description: Address with id 2 was not found
+                    date: 2022-10-28T21:39:54.603263862
+  /v1/customers:
+    get:
+      tags:
+        - Customer Controller
+      summary: Retrieve a list of customers
+      description: This endpoint is responsible to retrieve a list of customers based
+        on the applied filters
+      operationId: listAllCustomers
+      parameters:
+        - name: filter
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/CustomerFilter'
+      responses:
+        "500":
+          description: An unexpected error occurred during retrieve the customers
+            list
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to retrieve a customers list
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+        "200":
+          description: Return customers list
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageCustomerResponse'
+    post:
+      tags:
+        - Customer Controller
+      summary: Create a customer
+      description: This endpoint is responsible to create a new customer
+      operationId: createCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+        required: true
+      responses:
+        "400":
+          description: Customer request is invalid
+          content:
+            application/json:
+              examples:
+                Bad request example:
+                  description: A bad request response example when trying to create
+                    a customer
+                  value: |
+                    {
+                         "code": 400,
+                         "status": "Bad Request",
+                         "description": "Validation Exception",
+                         "date": "2022-11-25T20:14:04.078313400",
+                         "attributes": [
+                             {
+                                 "attribute": "firstName",
+                                 "errors": [
+                                     "First name cannot be null"
+                                 ]
+                             },
+                             {
+                                 "attribute": "lastName",
+                                 "errors": [
+                                     Last name cannot be null"
+                                 ]
+                             },
+                             {
+                                 "attribute": "birthday",
+                                 "errors": [
+                                     "Birthday cannot be null"
+                                 ]
+                             }
+                         ]
+                    }
+        "500":
+          description: An unexpected error occurred during creating the customer
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to create a customer
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+        "201":
+          description: Customer created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+  /v1/customers/{customerId}/emails:
+    get:
+      tags:
+        - Email Controller
+      summary: Retrieve a list of emails by customer id
+      description: This endpoint is responsible to retrieve a list of customer emails
+        based on the applied filters
+      operationId: listAllEmails
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: filter
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/EmailFilter'
+      responses:
+        "500":
+          description: An unexpected error occurred during retrieve the customer emails
+            list
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to retrieve a customer emails list
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+        "200":
+          description: Return customer emails list
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageEmailResponse'
+    post:
+      tags:
+        - Email Controller
+      summary: Create a email
+      description: This endpoint is responsible to create a new email
+      operationId: createEmail
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailRequest'
+        required: true
+      responses:
+        "201":
+          description: Email created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailResponse'
+        "400":
+          description: Email request is invalid
+          content:
+            application/json:
+              examples:
+                Bad request example:
+                  description: A bad request response example when trying to create
+                    an email
+                  value: |
+                    {
+                         "code": 400,
+                         "status": "Bad Request",
+                         "description": "Validation Exception",
+                         "date": "2022-11-25T20:14:04.078313400",
+                         "attributes": [
+                             {
+                                 "attribute": "type",
+                                 "errors": [
+                                     "Email Type cannot be null"
+                                 ]
+                             },
+                             {
+                                 "attribute": "email",
+                                 "errors": [
+                                     Email cannot be null"
+                                 ]
+                             }
+                         ]
+                    }
+        "500":
+          description: An unexpected error occurred during creating the email
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to create an email
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+  /v1/customers/{customerId}/documents:
+    get:
+      tags:
+        - Document Controller
+      summary: Retrieve a list of documents by customer id
+      description: This endpoint is responsible to retrieve a list of customer documents
+        based on the applied filters
+      operationId: listAllDocuments
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: filter
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/DocumentFilter'
+      responses:
+        "200":
+          description: Return customer documents list
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageDocumentResponse'
+        "500":
+          description: An unexpected error occurred during retrieve the customer documents
+            list
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to retrieve a customer documents list
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+    post:
+      tags:
+        - Document Controller
+      summary: Create a document
+      description: This endpoint is responsible to create a new document
+      operationId: createDocument
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentRequest'
+        required: true
+      responses:
+        "201":
+          description: Document created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentResponse'
+        "400":
+          description: Document request is invalid
+          content:
+            application/json:
+              examples:
+                Bad request example:
+                  description: A bad request response example when trying to create
+                    a document
+                  value: |
+                    {
+                         "code": 400,
+                         "status": "Bad Request",
+                         "description": "Validation Exception",
+                         "date": "2022-11-25T20:14:04.078313400",
+                         "attributes": [
+                             {
+                                 "attribute": "type",
+                                 "errors": [
+                                     "Document Type cannot be null"
+                                 ]
+                             },
+                             {
+                                 "attribute": "documentNumber",
+                                 "errors": [
+                                     Document number cannot be null"
+                                 ]
+                             }
+                         ]
+                    }
+        "500":
+          description: An unexpected error occurred during creating the document
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to create a document
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+  /v1/customers/{customerId}/addresses:
+    get:
+      tags:
+        - Address Controller
+      summary: Retrieve a list of addresses by customer id
+      description: This endpoint is responsible to retrieve a list of customer addresses
+        based on the applied filters
+      operationId: listAllAddresses
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: filter
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/AddressFilter'
+      responses:
+        "200":
+          description: Return customer addresses list
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageAddressResponse'
+        "500":
+          description: An unexpected error occurred during retrieve the customer addresses
+            list
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to retrieve a customer addresses list
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+    post:
+      tags:
+        - Address Controller
+      summary: Create an address
+      description: This endpoint is responsible to create a new address
+      operationId: createAddress
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddressRequest'
+        required: true
+      responses:
+        "400":
+          description: Address request is invalid
+          content:
+            application/json:
+              examples:
+                Bad request example:
+                  description: A bad request response example when trying to create
+                    an address
+                  value: |
+                    {
+                         "code": 400,
+                         "status": "Bad Request",
+                         "description": "Validation Exception",
+                         "date": "2022-11-25T20:14:04.078313400",
+                         "attributes": [
+                             {
+                                 "attribute": "street",
+                                 "errors": [
+                                     "Street cannot be null"
+                                 ]
+                             },
+                             {
+                                 "attribute": "eircode",
+                                 "errors": [
+                                     Eircode cannot be null"
+                                 ]
+                             },
+                             {
+                                 "attribute": "city",
+                                 "errors": [
+                                     "City cannot be null"
+                                 ]
+                             },
+                             {
+                                 "attribute": "country",
+                                 "errors": [
+                                     "Country cannot be null"
+                                 ]
+                             }
+                         ]
+                    }
+        "201":
+          description: Address created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressResponse'
+        "500":
+          description: An unexpected error occurred during creating the address
+          content:
+            application/json:
+              examples:
+                Internal server error example:
+                  description: A internal server error response example when trying
+                    to create an address
+                  value:
+                    code: 500
+                    status: Internal Server Error
+                    description: An error occurred while processing your request
+                    date: 2022-10-28T21:39:54.603263862
+components:
+  schemas:
+    CustomerRequest:
+      required:
+        - birthday
+        - firstName
+        - lastName
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: Customer first name
+          example: Damian
+        lastName:
+          type: string
+          description: Customer last name
+          example: O’Brien
+        birthday:
+          type: string
+          description: Customer birthday
+          format: date
+          example: 1981-04-21
+    EmailRequest:
+      required:
+        - email
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: Email type
+          example: PERSONAL
+          enum:
+            - WORK
+            - PERSONAL
+        email:
+          type: string
+          description: Email
+          example: damian.obrien@gmail.com
+    DocumentRequest:
+      required:
+        - documentNumber
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: Document type
+          example: PASSPORT
+          enum:
+            - DRIVER_LICENSE
+            - PASSPORT
+            - PPS
+        documentNumber:
+          type: string
+          description: Document number
+          example: 187263IN
+    AddressRequest:
+      required:
+        - city
+        - country
+        - county
+        - eircode
+        - street
+      type: object
+      properties:
+        street:
+          type: string
+          description: Address street
+          example: Coosan Road
+        complement:
+          type: string
+          description: Address complement
+          example: "Apt. 104, Block 4"
+        eircode:
+          type: string
+          description: Address eircode
+          example: N46RP87
+        city:
+          type: string
+          description: Address city
+          example: Athlone
+        county:
+          type: string
+          description: Address county
+          example: Co. Westmeath
+        country:
+          type: string
+          description: Address country
+          example: Ireland
+    AddressResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Address Id
+          format: int64
+          example: 13
+        street:
+          type: string
+          description: Address street
+          example: Coosan Road
+        complement:
+          type: string
+          description: Address complement
+          example: "Apt. 104, Block 4"
+        eircode:
+          type: string
+          description: Address eircode
+          example: N46RP87
+        city:
+          type: string
+          description: Address city
+          example: Athlone
+        county:
+          type: string
+          description: Address county
+          example: Co. Westmeath
+        country:
+          type: string
+          description: Address country
+          example: Ireland
+    CustomerResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Customer Id
+          format: int64
+          example: 13
+        firstName:
+          type: string
+          description: Customer first name
+          example: Damian
+        lastName:
+          type: string
+          description: Customer last name
+          example: O’Brien
+        birthday:
+          type: string
+          description: Customer birthday
+          format: date
+          example: 1981-04-21
+        addresses:
+          type: array
+          description: Customer addresses list
+          items:
+            $ref: '#/components/schemas/AddressResponse'
+        emails:
+          type: array
+          description: Customer emails list
+          items:
+            $ref: '#/components/schemas/EmailResponse'
+        documents:
+          type: array
+          description: Customer documents list
+          items:
+            $ref: '#/components/schemas/DocumentResponse'
+    DocumentResponse:
+      required:
+        - documentNumber
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Document Id
+          format: int64
+          example: 13
+        type:
+          type: string
+          description: Document type
+          example: PASSPORT
+          enum:
+            - DRIVER_LICENSE
+            - PASSPORT
+            - PPS
+        documentNumber:
+          type: string
+          description: Document number
+          example: 187263IN
+    EmailResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Email Id
+          format: int64
+          example: 13
+        type:
+          type: string
+          description: Email type
+          example: PERSONAL
+          enum:
+            - WORK
+            - PERSONAL
+        email:
+          type: string
+          description: Email
+          example: damian.obrien@gmail.com
+    CustomerFilter:
+      required:
+        - pageNumber
+        - pageSize
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          description: Zero-base page index (0..N)
+          format: int32
+          example: 0
+          default: 0
+        pageSize:
+          type: integer
+          description: Number of records per page
+          format: int32
+          example: 10
+          default: 10
+        sortDirection:
+          type: string
+          description: Sort direction
+          example: ASC|DESC
+          enum:
+            - ASC
+            - DESC
+        sortBy:
+          type: string
+          description: Sort column name
+          example: firstName
+        firstName:
+          type: string
+          description: First name to be searched
+          example: Damian
+        lastName:
+          type: string
+          description: Last name to be searched
+          example: O’Brien
+    PageCustomerResponse:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerResponse'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+        pageSize:
+          type: integer
+          format: int32
+        pageNumber:
+          type: integer
+          format: int32
+    SortObject:
+      type: object
+      properties:
+        empty:
+          type: boolean
+        unsorted:
+          type: boolean
+        sorted:
+          type: boolean
+    EmailFilter:
+      required:
+        - pageNumber
+        - pageSize
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          description: Zero-base page index (0..N)
+          format: int32
+          example: 0
+          default: 0
+        pageSize:
+          type: integer
+          description: Number of records per page
+          format: int32
+          example: 10
+          default: 10
+        sortDirection:
+          type: string
+          description: Sort direction
+          example: ASC|DESC
+          enum:
+            - ASC
+            - DESC
+        sortBy:
+          type: string
+          description: Sort column name
+          example: firstName
+        type:
+          type: string
+          description: Email type to be searched
+          example: PERSONAL|WORK
+          enum:
+            - WORK
+            - PERSONAL
+        email:
+          type: string
+          description: Email to be searched
+          example: damian.obrien@gmail.com
+    PageEmailResponse:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailResponse'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        empty:
+          type: boolean
+    DocumentFilter:
+      required:
+        - pageNumber
+        - pageSize
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          description: Zero-base page index (0..N)
+          format: int32
+          example: 0
+          default: 0
+        pageSize:
+          type: integer
+          description: Number of records per page
+          format: int32
+          example: 10
+          default: 10
+        sortDirection:
+          type: string
+          description: Sort direction
+          example: ASC|DESC
+          enum:
+            - ASC
+            - DESC
+        sortBy:
+          type: string
+          description: Sort column name
+          example: firstName
+        type:
+          type: string
+          description: Document type to be searched
+          example: PPS|DRIVER_LICENSE|PASSPORT
+          enum:
+            - DRIVER_LICENSE
+            - PASSPORT
+            - PPS
+        documentNumber:
+          type: string
+          description: Document number to be searched
+          example: 09817387IH
+    PageDocumentResponse:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentResponse'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        empty:
+          type: boolean
+    AddressFilter:
+      required:
+        - pageNumber
+        - pageSize
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          description: Zero-base page index (0..N)
+          format: int32
+          example: 0
+          default: 0
+        pageSize:
+          type: integer
+          description: Number of records per page
+          format: int32
+          example: 10
+          default: 10
+        sortDirection:
+          type: string
+          description: Sort direction
+          example: ASC|DESC
+          enum:
+            - ASC
+            - DESC
+        sortBy:
+          type: string
+          description: Sort column name
+          example: firstName
+        street:
+          type: string
+          description: Street to be searched
+          example: Coosan Road
+        city:
+          type: string
+          description: City to be searched
+          example: Athlone
+        county:
+          type: string
+          description: County to be searched
+          example: Co. Westmeath
+        country:
+          type: string
+          description: Country to be searched
+          example: Ireland
+        eircode:
+          type: string
+          description: Eircode to be searched
+          example: N47RP97
+    PageAddressResponse:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddressResponse'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        empty:
+          type: boolean

@@ -1,0 +1,62 @@
+app:
+  title: Customer Service API
+  description:
+  version: 1.0.0
+  contact:
+    name: Joel Silva
+    email: joeltadeu@gmail.com
+  terms-of-service:
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  license:
+    type: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+spring:
+  ## jpa:
+  ##   generate-ddl: false
+  ##   hibernate:
+  ##     ddl-auto: none
+  sql:
+    init:
+      mode: always
+  application:
+    name: customer-service
+  ##  datasource:
+  ##    url: ${database.url}
+  ##    username: ${database.username}
+  ##    password: ${database.password}
+  ##    driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    deserialization:
+      fail-on-unknown-properties: true
+  logging:
+    pattern:
+      console: "%clr(%d{yyyy-MM-dd HH:mm:ss}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr([${springAppName:-},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-}]){yellow} %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
+    level:
+      org.springframework: WARN
+      org.hibernate: WARN
+
+server:
+  port: 9081
+
+management:
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: metrics,info,health,prometheus
+  metrics:
+    distribution:
+      percentiles-histogram.http.server.requests: false
+      percentiles.http.server.requests: 0.5, 0.9, 0.95, 0.99, 0.999
+      sla.http.server.requests: 500ms, 2000ms
+
+
+springdoc:
+  swagger-ui:
+    url: /openapi.yaml
